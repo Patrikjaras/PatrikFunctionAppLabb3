@@ -11,11 +11,11 @@ namespace PatrikFunctionApp.Functions
 {
     public class ProductsGetAllCreate
     {
-        private readonly AppDbContext _ctx;
+        private readonly AppDbContext _context;
 
         public ProductsGetAllCreate(AppDbContext ctx)
         {
-            _ctx = ctx;
+            _context = ctx;
         }
 
         [Function("ProductsGetAllCreate")]
@@ -34,12 +34,12 @@ namespace PatrikFunctionApp.Functions
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 var product = JsonConvert.DeserializeObject<Product>(requestBody);
-                _ctx.Products.Add(product);
-                await _ctx.SaveChangesAsync();
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
                 return new CreatedResult("/products", product);
             }
 
-            var products = await _ctx.Products.ToListAsync();
+            var products = await _context.Products.ToListAsync();
             return new OkObjectResult(products);
         }
     }
