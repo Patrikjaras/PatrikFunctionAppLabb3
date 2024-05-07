@@ -13,9 +13,9 @@ namespace PatrikFunctionApp.Functions
     {
         private readonly AppDbContext _context;
 
-        public ProductsGetAllCreate(AppDbContext ctx)
+        public ProductsGetAllCreate(AppDbContext context)
         {
-            _context = ctx;
+            _context = context;
         }
 
         [Function("ProductsGetAllCreate")]
