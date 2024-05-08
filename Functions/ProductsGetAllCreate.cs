@@ -22,7 +22,7 @@ namespace PatrikFunctionApp.Functions
 
         [Function("GetAllProducts")]
         public async Task<IActionResult> GetAllProducts(
-            [HttpTrigger(AuthorizationLevel.Anonymous,  "get", Route = "products")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function,  "get", Route = "products")] HttpRequest req)
         {
             
             var products = await _context.Products.ToListAsync();
@@ -32,7 +32,7 @@ namespace PatrikFunctionApp.Functions
 
         [Function("CreateProduct")]
         public async Task<IActionResult> CreateProduct(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "products")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "products")] HttpRequest req)
         {
             
 
@@ -47,7 +47,7 @@ namespace PatrikFunctionApp.Functions
        
         [Function("DeleteProduct")]
         public async Task<IActionResult> DeleteProduct(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "products/{id}")] HttpRequest req, Guid id)
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "products/{id}")] HttpRequest req, Guid id)
         {
             _logger.LogInformation("Deletes a product");
             var productToDelete = await _context.Products.FirstOrDefaultAsync(product => product.Id == id);
@@ -67,7 +67,7 @@ namespace PatrikFunctionApp.Functions
        
         [Function("UpdateProduct")]
         public async Task<IActionResult> UpdateProduct(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "products/{id}")] HttpRequest req, Guid id)
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "products/{id}")] HttpRequest req, Guid id)
         {
           
        
@@ -91,7 +91,7 @@ namespace PatrikFunctionApp.Functions
        
         [Function("GetProduct")]
         public async Task<IActionResult> GetProduct(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "products/{id}")] HttpClient req, Guid id)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "products/{id}")] HttpClient req, Guid id)
         {
             var selectedProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (selectedProduct == null)
