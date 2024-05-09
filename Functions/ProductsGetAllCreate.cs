@@ -35,7 +35,6 @@ namespace PatrikFunctionApp.Functions
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "products")] HttpRequest req)
         {
             
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var product = JsonConvert.DeserializeObject<Product>(requestBody);
             _context.Products.Add(product);

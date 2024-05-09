@@ -11,8 +11,7 @@
       "secretStore": null,
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/patrikrj-keyvault",
       "type": "secrets.keyVault",
-      "connectionId": "VaultUri",
-      "dynamicId": null
+      "connectionId": "VaultUri"
     }
   }
 }

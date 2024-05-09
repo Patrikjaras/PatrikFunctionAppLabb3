@@ -3,39 +3,41 @@ using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PatrikFunctionApp.DataAcress;
 
+
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
+    .ConfigureAppConfiguration((context, config) =>
+    {
+
+        var keyvaultEndPoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+        config.AddAzureKeyVault(keyvaultEndPoint, new DefaultAzureCredential());
+
+    })
     .ConfigureServices(async (hostContext, services) =>
     {
-        var configBuilder = new ConfigurationBuilder()
-            .SetBasePath(hostContext.HostingEnvironment.ContentRootPath)
-            .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-            .AddEnvironmentVariables();
+        var configuration = hostContext.Configuration;
 
-        IConfiguration configuration = configBuilder.Build();
-        var sqlConnectionLive = Environment.GetEnvironmentVariable("SQlConnectionString");
+        string SQLConnection = configuration["testtesttest"];
 
-        if (sqlConnectionLive is null)
+        //spara för localhost testning
+
+     // var configBuilder = new ConfigurationBuilder()
+     //     .SetBasePath(hostContext.HostingEnvironment.ContentRootPath)
+     //     .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+     //     .AddEnvironmentVariables();
+     //
+
+        services.AddDbContext<AppDbContext>(options =>
         {
-            string sqlConnectionStringLocal = configuration.GetConnectionString("SQlConnectionString");
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer(sqlConnectionStringLocal);
-            });
+            options.UseSqlServer(SQLConnection);
+        });
 
-        }
-        else
-        {
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer(sqlConnectionLive);
-            });
-        }
 
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
