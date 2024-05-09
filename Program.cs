@@ -27,11 +27,11 @@ var host = new HostBuilder()
 
         //spara för localhost testning
 
-     // var configBuilder = new ConfigurationBuilder()
-     //     .SetBasePath(hostContext.HostingEnvironment.ContentRootPath)
-     //     .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-     //     .AddEnvironmentVariables();
-     //
+        // var configBuilder = new ConfigurationBuilder()
+        //     .SetBasePath(hostContext.HostingEnvironment.ContentRootPath)
+        //     .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+        //     .AddEnvironmentVariables();
+        //
 
         services.AddDbContext<AppDbContext>(options =>
         {
